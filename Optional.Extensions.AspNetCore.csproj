@@ -3,9 +3,13 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <AssemblyName>Optional.Extensions.AspNetCore</AssemblyName>
-    <Description>Offers extensions to convert Option&lt;T, TError&gt; type to ASP.Net Core responses in accordance with REST.</Description>
+    <Description>Offers extensions to convert Option&lt;T, ErrorResult&lt;TError&gt;&gt; type to ASP.Net Core responses in accordance with REST.</Description>
     <Authors>Marko Lazic</Authors>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <AssemblyVersion>1.0.2.0</AssemblyVersion>
+    <FileVersion>1.0.2.0</FileVersion>
+    <PackageReleaseNotes>Updated to support an object to be passed in for errors. Class is now called ErrorResult and wraps an error code and an object with data.</PackageReleaseNotes>
+    <Version>1.0.2</Version>
   </PropertyGroup>
 
   <ItemGroup>
