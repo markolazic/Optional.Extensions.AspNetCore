@@ -5,6 +5,7 @@
         NotFound,
         BadRequest,
         Conflict,
+        ServerError,
         None
     }
 
@@ -33,6 +34,8 @@
         public static ErrorResult<T> BadRequest(T data) => new ErrorResult<T>(ErrorCode.BadRequest, data);
 
         public static ErrorResult<T> Conflict(T data) => new ErrorResult<T>(ErrorCode.Conflict, data);
+
+        public static ErrorResult<T> ServerError(T data) => new ErrorResult<T>(ErrorCode.ServerError, data);
     }
 
     public static class ErrorTExtensions
@@ -40,5 +43,6 @@
         public static ErrorResult<T> ToNotFound<T>(this T data) => ErrorResult<T>.NotFound(data);
         public static ErrorResult<T> ToBadRequest<T>(this T data) => ErrorResult<T>.BadRequest(data);
         public static ErrorResult<T> ToConflict<T>(this T data) => ErrorResult<T>.Conflict(data);
+        public static ErrorResult<T> ToServerError<T>(this T data) => ErrorResult<T>.ServerError(data);
     }
 }

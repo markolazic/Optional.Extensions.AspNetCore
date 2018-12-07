@@ -53,7 +53,7 @@ namespace Optional.Extensions.AspNetCore
         public static IActionResult ToCreatedOrError<T, TError>(this Option<T, ErrorResult<TError>> option) where T : class
         {
             return option.Match(
-                some: value => new StatusCodeResult(201) as IActionResult,
+                some: value => new ObjectResult(value) { StatusCode = 201 } as IActionResult,
                 none: error => ToErrorResponse(error));
         }
     }
