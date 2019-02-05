@@ -1,41 +1,36 @@
-﻿namespace Optional.Extensions.AspNetCore
-{
-    public enum ErrorCode
-    {
-        NotFound,
-        BadRequest,
-        Conflict,
-        ServerError,
-        None
-    }
+﻿using System.Net;
 
+namespace Optional.Extensions.AspNetCore
+{
     public class ErrorResult
     {
-        public ErrorResult(ErrorCode code)
+        protected ErrorResult(HttpStatusCode  statusCode)
         {
-            Code = code;
+            StatusCode = statusCode;
         }
 
-        public ErrorCode Code { get; }
+        public HttpStatusCode StatusCode { get; }
     }
 
     public class ErrorResult<T> : ErrorResult
     {
         public T Data { get; }
 
-        public ErrorResult(ErrorCode code, T data)
-            : base(code)
+        private ErrorResult(HttpStatusCode statusCode, T data)
+            : base(statusCode)
         {
             Data = data;
         }
 
-        public static ErrorResult<T> NotFound(T data) => new ErrorResult<T>(ErrorCode.NotFound, data);
+        public static ErrorResult<T> NotFound(T data) => new ErrorResult<T>(HttpStatusCode.NotFound, data);
 
-        public static ErrorResult<T> BadRequest(T data) => new ErrorResult<T>(ErrorCode.BadRequest, data);
+        public static ErrorResult<T> BadRequest(T data) => new ErrorResult<T>(HttpStatusCode.BadRequest, data);
 
-        public static ErrorResult<T> Conflict(T data) => new ErrorResult<T>(ErrorCode.Conflict, data);
+        public static ErrorResult<T> Conflict(T data) => new ErrorResult<T>(HttpStatusCode.Conflict, data);
 
-        public static ErrorResult<T> ServerError(T data) => new ErrorResult<T>(ErrorCode.ServerError, data);
+        public static ErrorResult<T> ServerError(T data) => new ErrorResult<T>(HttpStatusCode.InternalServerError, data);
+
+        public static ErrorResult<T> UnprocessableEntity(T data) => new ErrorResult<T>(HttpStatusCode.UnprocessableEntity, data);
     }
 
     public static class ErrorTExtensions
@@ -44,5 +39,6 @@
         public static ErrorResult<T> ToBadRequest<T>(this T data) => ErrorResult<T>.BadRequest(data);
         public static ErrorResult<T> ToConflict<T>(this T data) => ErrorResult<T>.Conflict(data);
         public static ErrorResult<T> ToServerError<T>(this T data) => ErrorResult<T>.ServerError(data);
+        public static ErrorResult<T> ToUnprocessableEntity<T>(this T data) => ErrorResult<T>.UnprocessableEntity(data);
     }
 }

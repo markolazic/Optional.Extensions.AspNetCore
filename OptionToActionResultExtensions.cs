@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using Optional;
 
@@ -27,21 +28,6 @@ namespace Optional.Extensions.AspNetCore
                 none: () => new NoContentResult() as IActionResult);
         }
 
-        private static IActionResult ToErrorResponse<TError>(ErrorResult<TError> errorResult)
-        {
-            switch (errorResult.Code)
-            {
-                case ErrorCode.NotFound:
-                    return new NotFoundObjectResult(errorResult.Data);
-                case ErrorCode.BadRequest:
-                    return new BadRequestObjectResult(errorResult.Data);
-                case ErrorCode.Conflict:
-                    return new ConflictObjectResult(errorResult.Data);
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(errorResult), errorResult, null);
-            }
-        }
-
         public static IActionResult ToCreatedOrError<T, TError>(this Option<T, ErrorResult<TError>> option,
             string routeNameToGetAt, Func<T, object> getRouteData) where T : class
         {
@@ -55,6 +41,14 @@ namespace Optional.Extensions.AspNetCore
             return option.Match(
                 some: value => new ObjectResult(value) { StatusCode = 201 } as IActionResult,
                 none: error => ToErrorResponse(error));
+        }
+
+        private static IActionResult ToErrorResponse<TError>(ErrorResult<TError> errorResult)
+        {
+            return new ObjectResult(errorResult.Data)
+            {
+                StatusCode = (int)errorResult.StatusCode
+            };
         }
     }
 
@@ -81,21 +75,6 @@ namespace Optional.Extensions.AspNetCore
                 none: () => new NoContentResult() as IActionResult);
         }
 
-        private static IActionResult ToErrorResponse(ErrorResult errorResult)
-        {
-            switch (errorResult.Code)
-            {
-                case ErrorCode.NotFound:
-                    return new NotFoundResult();
-                case ErrorCode.BadRequest:
-                    return new BadRequestResult();
-                case ErrorCode.Conflict:
-                    return new ConflictResult();
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(errorResult), errorResult, null);
-            }
-        }
-
         public static IActionResult ToCreatedOrError<T>(this Option<T, ErrorResult> option,
             string routeNameToGetAt, Func<T, object> getRouteData) where T : class
         {
@@ -109,6 +88,14 @@ namespace Optional.Extensions.AspNetCore
             return option.Match(
                 some: value => new StatusCodeResult(201) as IActionResult,
                 none: error => ToErrorResponse(error));
+        }
+
+        private static IActionResult ToErrorResponse(ErrorResult errorResult)
+        {
+            return new ObjectResult(null)
+            {
+                StatusCode = (int)errorResult.StatusCode
+            };
         }
     }
 }
