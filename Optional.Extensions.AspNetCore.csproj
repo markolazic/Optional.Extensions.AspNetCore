@@ -8,7 +8,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <AssemblyVersion>1.0.4.0</AssemblyVersion>
     <FileVersion>1.0.4.0</FileVersion>
-    <PackageReleaseNotes>Updated to support an object to be passed in for 201 Created response when creating without location header.</PackageReleaseNotes>
+    <PackageReleaseNotes>Added ToUnprocessableEntity extension method. HttpStatusCode used to internaly manage state of ErrorResult class</PackageReleaseNotes>
     <Version>1.0.4</Version>
   </PropertyGroup>
 
