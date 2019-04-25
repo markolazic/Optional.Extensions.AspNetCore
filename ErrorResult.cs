@@ -10,6 +10,8 @@ namespace Optional.Extensions.AspNetCore
         }
 
         public HttpStatusCode StatusCode { get; }
+
+        public static ErrorResult Unauthorized() => new ErrorResult(HttpStatusCode.Unauthorized);
     }
 
     public class ErrorResult<T> : ErrorResult
