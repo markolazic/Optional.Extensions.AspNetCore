@@ -57,6 +57,13 @@ namespace Optional.Extensions.AspNetCore
                 none: () => new StatusCodeResult(201) as IActionResult);
         }
 
+        public static IActionResult ToAcceptedOrError<TError>(this Option<ErrorResult<TError>> option)
+        {
+            return option.Match(
+                some: ToErrorResponse,
+                none: () => new StatusCodeResult(202) as IActionResult);
+        }
+
         private static IActionResult ToErrorResponse<TError>(ErrorResult<TError> errorResult)
         {
             return new ObjectResult(errorResult.Data)

@@ -6,10 +6,10 @@
     <Description>Offers extensions to convert Option&lt;T, ErrorResult&lt;TError&gt;&gt; type to ASP.Net Core responses in accordance with REST.</Description>
     <Authors>Marko Lazic</Authors>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <AssemblyVersion>1.0.6.0</AssemblyVersion>
-    <FileVersion>1.0.6.0</FileVersion>
-    <PackageReleaseNotes>Added support for Unauthorized 401 in ErrorResult</PackageReleaseNotes>
-    <Version>1.0.6</Version>
+    <AssemblyVersion>1.0.8.0</AssemblyVersion>
+    <FileVersion>1.0.8.0</FileVersion>
+    <PackageReleaseNotes>Added support for Accepted 202 status code</PackageReleaseNotes>
+    <Version>1.0.8</Version>
   </PropertyGroup>
 
   <ItemGroup>
