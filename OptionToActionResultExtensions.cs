@@ -11,20 +11,20 @@ namespace Optional.Extensions.AspNetCore
         {
             return option.Match(
                 some: value => new OkObjectResult(value) as IActionResult,
-                none: error => ToErrorResponse(error));
+                none: ToErrorResponse);
         }
 
         public static IActionResult ToNoContentOrError<T, TError>(this Option<T, ErrorResult<TError>> option) where T : class
         {
             return option.Match(
                 some: value => new NoContentResult() as IActionResult,
-                none: error => ToErrorResponse(error));
+                none: ToErrorResponse);
         }
 
         public static IActionResult ToNoContentOrError<TError>(this Option<ErrorResult<TError>> option)
         {
             return option.Match(
-                some: error => ToErrorResponse(error),
+                some: ToErrorResponse,
                 none: () => new NoContentResult() as IActionResult);
         }
 
@@ -33,14 +33,21 @@ namespace Optional.Extensions.AspNetCore
         {
             return option.Match(
                 some: value => new CreatedAtRouteResult(routeNameToGetAt, getRouteData(value), value) as IActionResult,
-                none: error => ToErrorResponse(error));
+                none: ToErrorResponse);
         }
 
         public static IActionResult ToCreatedOrError<T, TError>(this Option<T, ErrorResult<TError>> option) where T : class
         {
             return option.Match(
                 some: value => new ObjectResult(value) { StatusCode = 201 } as IActionResult,
-                none: error => ToErrorResponse(error));
+                none: ToErrorResponse);
+        }
+
+        public static IActionResult ToAcceptedOrError<T, TError>(this Option<T, ErrorResult<TError>> option) where T : class
+        {
+            return option.Match(
+                some: value => new ObjectResult(value) { StatusCode = 202 } as IActionResult,
+                none: ToErrorResponse);
         }
 
         public static IActionResult ToCreatedOrError<TError>(this Option<ErrorResult<TError>> option)
@@ -65,20 +72,20 @@ namespace Optional.Extensions.AspNetCore
         {
             return option.Match(
                 some: value => new OkObjectResult(value) as IActionResult,
-                none: error => ToErrorResponse(error));
+                none: ToErrorResponse);
         }
 
         public static IActionResult ToNoContentOrError<T, TError>(this Option<T, ErrorResult> option) where T : class
         {
             return option.Match(
                 some: value => new NoContentResult() as IActionResult,
-                none: error => ToErrorResponse(error));
+                none: ToErrorResponse);
         }
 
         public static IActionResult ToNoContentOrError<TError>(this Option<ErrorResult> option)
         {
             return option.Match(
-                some: error => ToErrorResponse(error),
+                some: ToErrorResponse,
                 none: () => new NoContentResult() as IActionResult);
         }
 
@@ -87,14 +94,21 @@ namespace Optional.Extensions.AspNetCore
         {
             return option.Match(
                 some: value => new CreatedAtRouteResult(routeNameToGetAt, getRouteData(value), value) as IActionResult,
-                none: error => ToErrorResponse(error));
+                none: ToErrorResponse);
         }
 
         public static IActionResult ToCreatedOrError<T>(this Option<T, ErrorResult> option) where T : class
         {
             return option.Match(
                 some: value => new StatusCodeResult(201) as IActionResult,
-                none: error => ToErrorResponse(error));
+                none: ToErrorResponse);
+        }
+
+        public static IActionResult ToAcceptedOrError<T>(this Option<T, ErrorResult> option) where T : class
+        {
+            return option.Match(
+                some: value => new ObjectResult(value) { StatusCode = 202 } as IActionResult,
+                none: ToErrorResponse);
         }
 
         private static IActionResult ToErrorResponse(ErrorResult errorResult)
